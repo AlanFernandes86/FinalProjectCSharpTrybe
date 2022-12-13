@@ -9,7 +9,7 @@ namespace FinalProjectCSharpTrybe.Repository
         Task<IEnumerable<User>> GetUsersByName(string name);
 
         int SetUser(User user);
-        int DeleteUser(User user);
+        Task<int> DeleteUser(int userId);
         int UpdateUser(User user);
     }
 }

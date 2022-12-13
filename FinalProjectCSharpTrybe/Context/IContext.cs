@@ -10,6 +10,6 @@ namespace FinalProjectCSharpTrybe.Context
 
         public int SaveChanges();
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

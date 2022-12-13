@@ -1,5 +1,6 @@
 ﻿using FinalProjectCSharpTrybe.Context;
 using FinalProjectCSharpTrybe.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalProjectCSharpTrybe.Repository
@@ -33,10 +34,24 @@ namespace FinalProjectCSharpTrybe.Repository
             _context.Users.Update(user);
             return _context.SaveChanges();
         }
-        public int DeleteUser(User user)
+        public async Task<int> DeleteUser(int userId)
         {
-            _context.Users.Remove(user);
-            return _context.SaveChanges();
+            try
+            {
+                _context.Users.Remove(new User() { Id = userId });
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                if (!_context.Users.Any(i => i.Id == userId))
+                {
+                    return 0;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

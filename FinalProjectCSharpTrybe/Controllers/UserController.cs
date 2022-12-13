@@ -14,10 +14,18 @@ namespace FinalProjectCSharpTrybe.Controllers
             _repository = userRepository;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<ActionResult<IEnumerable<Post>>> GetUserById(int userId)
+        [HttpGet("{user}", Name = "GetUserByNameOrId")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersByName(string user)
         {
-            var result = await _repository.GetUserById(userId);
+            int id;
+
+            if (int.TryParse(user, out id))
+            {
+                var res = await _repository.GetUserById(id);
+                return Ok(res);
+            }
+
+            var result = await _repository.GetUsersByName(user);
             return Ok(result);
         }
 
@@ -25,6 +33,13 @@ namespace FinalProjectCSharpTrybe.Controllers
         public async Task<ActionResult<int>> SetUser([FromBody] User user)
         {
             var result = _repository.SetUser(user);
+            return Ok(result);
+        }
+
+        [HttpDelete("{userId}")]
+        public async Task<ActionResult<int>> DeleteUser(int userId)
+        {
+            var result = _repository.DeleteUser(userId);
             return Ok(result);
         }
     }
