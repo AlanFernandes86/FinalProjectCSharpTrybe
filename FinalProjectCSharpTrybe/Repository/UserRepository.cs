@@ -23,16 +23,16 @@ namespace FinalProjectCSharpTrybe.Repository
             return await _context.Users.Where((user) => user.Name.Contains(name)).ToListAsync();
         }
 
-        public int SetUser(User user)
+        public Task<int> SetUser(User user)
         {
             _context.Users.Add(user);
-            return _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public int UpdateUser(User user)
+        public Task<int> UpdateUser(User user)
         {
             _context.Users.Update(user);
-            return _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
         public async Task<int> DeleteUser(int userId)
         {

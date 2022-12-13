@@ -32,14 +32,14 @@ namespace FinalProjectCSharpTrybe.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> SetUser([FromBody] User user)
         {
-            var result = _repository.SetUser(user);
+            var result = await _repository.SetUser(user);
             return Ok(result);
         }
 
         [HttpPut]
         public async Task<ActionResult<int>> UpdateUser([FromBody] User user)
         {
-            var result = _repository.UpdateUser(user);
+            var result = await _repository.UpdateUser(user);
             return Ok(result);
         }
 
