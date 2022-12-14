@@ -1,3 +1,5 @@
+using FinalProjectCSharpTrybe.Models;
+
 namespace FinalProjectCSharpTrybe.test
 {
     public class UnitTest1
@@ -5,7 +7,7 @@ namespace FinalProjectCSharpTrybe.test
         [Fact]
         public void Test1()
         {
-
+            new User();
         }
     }
 }

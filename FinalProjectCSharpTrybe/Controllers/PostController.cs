@@ -1,11 +1,12 @@
 using FinalProjectCSharpTrybe.Models;
 using FinalProjectCSharpTrybe.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProjectCSharpTrybe.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("v1/[controller]")]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _repository;
@@ -15,6 +16,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         }
 
         [HttpGet("{userId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Post>>> GetPost(int userId, bool All)
         {
 
@@ -31,6 +33,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<int>> SetPost([FromBody] Post post)
         {
             var result = await _repository.SetPost(post);
@@ -38,13 +41,15 @@ namespace FinalProjectCSharpTrybe.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult<int>> UpdatePost([FromBody] int id, string message)
+        [Authorize]
+        public async Task<ActionResult<int>> UpdatePost([FromBody] PostMessage postMessage)
         {
-            var result = await _repository.UpdatePostMessage(id, message);
+            var result = await _repository.UpdatePostMessage(postMessage.Id, postMessage.Message);
             return Ok(result);
         }
 
         [HttpDelete("{postId}")]
+        [Authorize]
         public async Task<ActionResult<int>> DeletePost(int postId)
         {
             var result = await _repository.DeletePost(postId);

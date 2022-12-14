@@ -1,11 +1,12 @@
 using FinalProjectCSharpTrybe.Models;
 using FinalProjectCSharpTrybe.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProjectCSharpTrybe.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("v1/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repository;
@@ -15,6 +16,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         }
 
         [HttpGet("{user}", Name = "GetUserByIdOrName")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersByName(string user)
         {
             int id;
@@ -30,6 +32,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<int>> SetUser([FromBody] User user)
         {
             var result = await _repository.SetUser(user);
@@ -37,6 +40,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<int>> UpdateUser([FromBody] User user)
         {
             var result = await _repository.UpdateUser(user);
@@ -44,6 +48,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         }
 
         [HttpDelete("{userId}")]
+        [Authorize]
         public async Task<ActionResult<int>> DeleteUser(int userId)
         {
             var result = await _repository.DeleteUser(userId);
