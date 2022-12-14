@@ -24,7 +24,8 @@ namespace FinalProjectCSharpTrybe.Repository
         public async Task<int> SetPost(Post post)
         {
             _context.Posts.Add(post);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return post.Id;
         }
 
         public async Task<int> DeletePost(int postId)

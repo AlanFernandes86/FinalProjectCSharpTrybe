@@ -1,3 +1,5 @@
+using FinalProjectCSharpTrybe.Controllers.Response;
+using FinalProjectCSharpTrybe.Enums;
 using FinalProjectCSharpTrybe.Models;
 using FinalProjectCSharpTrybe.Repository;
 using Microsoft.AspNetCore.Authorization;
@@ -23,12 +25,12 @@ namespace FinalProjectCSharpTrybe.Controllers
             if (All)
             {
                 var result = await _repository.GetAllPosts(userId);
-                return Ok(result);
+                return Ok(new BaseResponse(ResponseStatus.Success, result));
             }
             else
             {
                 var result = await _repository.GetLastPost(userId);
-                return Ok(result);
+                return Ok(new BaseResponse(ResponseStatus.Success, result));
             }            
         }
 
@@ -37,7 +39,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         public async Task<ActionResult<int>> SetPost([FromBody] Post post)
         {
             var result = await _repository.SetPost(post);
-            return Ok(result);
+            return Ok(new BaseResponse(ResponseStatus.Success, result));
         }
 
         [HttpPatch]
@@ -45,7 +47,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         public async Task<ActionResult<int>> UpdatePost([FromBody] PostMessage postMessage)
         {
             var result = await _repository.UpdatePostMessage(postMessage.Id, postMessage.Message);
-            return Ok(result);
+            return Ok(new BaseResponse(ResponseStatus.Success, result));
         }
 
         [HttpDelete("{postId}")]
@@ -53,7 +55,7 @@ namespace FinalProjectCSharpTrybe.Controllers
         public async Task<ActionResult<int>> DeletePost(int postId)
         {
             var result = await _repository.DeletePost(postId);
-            return Ok(result);
+            return Ok(new BaseResponse(ResponseStatus.Success, result));
         }
     }
 }

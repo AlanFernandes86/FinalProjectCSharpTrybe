@@ -17,6 +17,8 @@ namespace FinalProjectCSharpTrybe.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
+            user.Password = String.Empty;
+
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = AddClaims(user),

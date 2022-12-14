@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mail;
 
 namespace FinalProjectCSharpTrybe.Models
 {
     [Table("Users")]
+    [Index(nameof(Email), IsUnique = true)]
     public class User
     {
         [Key]
@@ -22,7 +24,7 @@ namespace FinalProjectCSharpTrybe.Models
         public int Status { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(500)]
         public string? Password { get; set; }
 
         public ICollection<Post>? Posts { get; set; }
