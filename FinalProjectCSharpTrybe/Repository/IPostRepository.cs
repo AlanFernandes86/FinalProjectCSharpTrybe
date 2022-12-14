@@ -8,8 +8,8 @@ namespace FinalProjectCSharpTrybe.Repository
 
         Task<Post> GetLastPost(int userId);
 
-        int SetPost(Post post);
-        int DeletePost(Post post);
-        int UpdatePostMessage(int id, string message);
+        Task<int> SetPost(Post post);
+        Task<int> DeletePost(int id);
+        Task<int> UpdatePostMessage(int id, string message);
     }
 }

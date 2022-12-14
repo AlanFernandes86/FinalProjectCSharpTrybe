@@ -19,29 +19,41 @@ namespace FinalProjectCSharpTrybe.Repository
 
         public async Task<Post> GetLastPost(int userId)
         {
-            return await _context.Posts.Where((post) => post.UserId == userId).OrderByDescending(p => p.UpdatedAt).FirstAsync();
+            return await _context.Posts.Where((post) => post.UserId == userId).OrderByDescending(p => p.Id).FirstAsync();
         }
-        public int SetPost(Post post)
+        public async Task<int> SetPost(Post post)
         {
             _context.Posts.Add(post);
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
-        public int DeletePost(Post post)
+        public async Task<int> DeletePost(int postId)
         {
-            _context.Posts.Remove(post);
-            return _context.SaveChanges();
+            try
+            {
+                _context.Posts.Remove(new Post() { Id = postId });
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                if (!_context.Posts.Any(i => i.Id == postId))
+                {
+                    return 0;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
 
-        public int UpdatePostMessage(int id, string message)
+        public async Task<int> UpdatePostMessage(int id, string message)
         {
-            return _context.Posts.Where(x => x.Id == id).ExecuteUpdate((y) => y.SetProperty((post) => post.Message, message));
+            var post = new Post() { Id = id, Message = message };
 
-            //var post = new Post() { Id = id, Message = message };
-
-            //_context.Posts.Attach(post);
-            //_context.Posts.Entry(post).Property(x => x.Message).IsModified = true;
-            //return _context.SaveChanges();
+            _context.Posts.Attach(post);
+            _context.Posts.Entry(post).Property(x => x.Message).IsModified = true;
+            return await _context.SaveChangesAsync();
         }
     }
 
