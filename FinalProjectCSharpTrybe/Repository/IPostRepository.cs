@@ -1,4 +1,5 @@
-﻿using FinalProjectCSharpTrybe.Models;
+﻿using FinalProjectCSharpTrybe.Controllers;
+using FinalProjectCSharpTrybe.Models;
 
 namespace FinalProjectCSharpTrybe.Repository
 {
@@ -8,7 +9,7 @@ namespace FinalProjectCSharpTrybe.Repository
 
         Task<Post> GetLastPost(int userId);
 
-        Task<int> SetPost(Post post);
+        Task<int> SetPost(RequestPost requestPost);
         Task<int> DeletePost(int id);
         Task<int> UpdatePostMessage(int id, string message);
     }

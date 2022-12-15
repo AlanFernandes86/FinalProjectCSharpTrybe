@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FinalProjectCSharpTrybe.Context;
 using FinalProjectCSharpTrybe.Models;
+using FinalProjectCSharpTrybe.Controllers;
 
 namespace FinalProjectCSharpTrybe.Repository
 {
@@ -21,8 +22,18 @@ namespace FinalProjectCSharpTrybe.Repository
         {
             return await _context.Posts.Where((post) => post.UserId == userId).OrderByDescending(p => p.Id).FirstAsync();
         }
-        public async Task<int> SetPost(Post post)
+        public async Task<int> SetPost(RequestPost requestPost)
         {
+            Post post = new Post
+            {
+                Title = requestPost.Title,
+                Message = requestPost.Message,
+                ImageURL = requestPost.ImageURL,
+                UserId = requestPost.UserId,
+                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow,
+            };
+            
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
             return post.Id;
@@ -50,7 +61,7 @@ namespace FinalProjectCSharpTrybe.Repository
 
         public async Task<int> UpdatePostMessage(int id, string message)
         {
-            var post = new Post() { Id = id, Message = message };
+            var post = new Post() { Id = id, Message = message, UpdatedAt = DateTime.UtcNow };
 
             _context.Posts.Attach(post);
             _context.Posts.Entry(post).Property(x => x.Message).IsModified = true;

@@ -19,10 +19,10 @@ namespace FinalProjectCSharpTrybe.Controllers
 
         [HttpGet("{userId}")]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPost(int userId, bool All)
+        public async Task<ActionResult<IEnumerable<Post>>> GetPost(int userId, bool AllPosts)
         {
 
-            if (All)
+            if (AllPosts)
             {
                 var result = await _repository.GetAllPosts(userId);
                 return Ok(new BaseResponse(ResponseStatus.Success, result));
@@ -36,9 +36,9 @@ namespace FinalProjectCSharpTrybe.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<int>> SetPost([FromBody] Post post)
+        public async Task<ActionResult<int>> SetPost([FromBody] RequestPost requestPost)
         {
-            var result = await _repository.SetPost(post);
+            var result = await _repository.SetPost(requestPost);
             return Ok(new BaseResponse(ResponseStatus.Success, result));
         }
 
