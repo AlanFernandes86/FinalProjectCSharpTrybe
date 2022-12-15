@@ -25,3 +25,4 @@ services:
       Database: "Tryitter"
     ports: 
       - "8090:80"
+      - "443:443"

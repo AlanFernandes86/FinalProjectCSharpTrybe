@@ -3,14 +3,18 @@
 ## Setup
 
 #### Na pasta aonde está o arquivo docker-compose.yml
+
 - docker-compose up --build
+
+https://localhost/swagger/index.html
 
 ## Tecnologias utilizadas
 
 - Docker
-_ Token JWT
+- Token JWT
 - ASP.NET Web Api
 - SQL Server
+- PasswordHash
 - xUnit Test
 
 ## Funcionalidades:
