@@ -59,6 +59,8 @@ namespace FinalProjectCSharpTrybe.Repository
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+            user.Password = String.Empty;
+
             return user.Id;
         }
 

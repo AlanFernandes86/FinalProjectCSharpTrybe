@@ -5,7 +5,7 @@ namespace FinalProjectCSharpTrybe.Services
 {
     public class PasswordHash
     {
-        public PasswordHasher<User> Hasher;
+        private readonly PasswordHasher<User> Hasher;
         public PasswordHash() 
         {
             Hasher = new PasswordHasher<User>();
