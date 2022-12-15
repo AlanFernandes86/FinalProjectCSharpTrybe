@@ -1,36 +1,43 @@
 using FinalProjectCSharpTrybe.Models;
-using FinalProjectCSharpTrybe.Services;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Net.Http.Headers;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using FluentAssertions;
+using System.Net.Http.Json;
 
 namespace FinalProjectCSharpTrybe.test
 {
-    public class TestUserController
+    public class UserControllerTest
     {
         private readonly WebApplicationFactory<Program> _factory;
         private const string controllerName = "user";
 
-        public TestUserController(WebApplicationFactory<Program> factory)
+        public UserControllerTest(WebApplicationFactory<Program> factory)
         {
             _factory = factory;
         }
 
         [Theory(DisplayName = "Teste para PlataformWelcome com Status Ok")]
-        [InlineData("Mayara", false, "")]
-        public async Task TestCreateNewUser(string name, bool isCompany, string currency)
+        [InlineData("Luiz", "luiz@home.com", "back-end", 0, "123456")]
+        [InlineData("Miguel", "miguel@home.com", "front-end", 0, "12345678")]
+        public async Task TestCreateNewUser(string name, string email, string module, int status, string password)
         {
-           User testUser = new();
+            User testUser = new() 
+            {
+                Name = name,
+                Email = email,
+                Module = module,
+                Status = status,
+                Password = password,
+            };
 
             var client = _factory.CreateClient();
 
-            var token = new TokenGenerator().Generate(testUser);
+            // var token = new TokenGenerator().Generate(testUser);
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            // client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.GetAsync("/Client/PlataformWelcome");
+            var response = await client.PostAsJsonAsync("User", testUser);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
