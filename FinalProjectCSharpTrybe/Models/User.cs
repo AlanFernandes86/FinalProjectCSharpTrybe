@@ -18,7 +18,7 @@ namespace FinalProjectCSharpTrybe.Models
         [Required]
         public string Email { get; set; }
 
-        public string? Module { get; set; }
+        public string Module { get; set; }
 
         [Required]
         public int Status { get; set; }

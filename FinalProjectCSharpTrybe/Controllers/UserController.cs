@@ -19,9 +19,10 @@ namespace FinalProjectCSharpTrybe.Controllers
             _repository = userRepository;
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<AuthenticateResponse>> Authenticate([FromBody] User user)
+        [Route("Authenticate")]
+        public async Task<ActionResult<AuthenticateResponse>> Authenticate([FromBody] RequestAuthenticate user)
         {
             var result = await _repository.Authenticate(user.Email, user.Password);
 
@@ -36,8 +37,9 @@ namespace FinalProjectCSharpTrybe.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<int>> SetUser([FromBody] User user)
+        public async Task<ActionResult<int>> SetUser([FromBody] RequestUser requestUser)
         {
+            var user = requestUser.ToUser();
             var result = await _repository.SetUser(user);
 
             if (result != 0)
@@ -52,7 +54,7 @@ namespace FinalProjectCSharpTrybe.Controllers
 
         [HttpGet("{user}", Name = "GetUserByIdOrName")]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersByName(string user)
+        public async Task<ActionResult<IEnumerable<User>>> GetUserByIdOrName(string user)
         {
             int id;
 
@@ -69,8 +71,9 @@ namespace FinalProjectCSharpTrybe.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult<int>> UpdateUser([FromBody] User user)
+        public async Task<ActionResult<int>> UpdateUser([FromBody] RequestUser requestUser)
         {
+            var user = requestUser.ToUser();
             var result = await _repository.UpdateUser(user);
             return Ok(new BaseResponse(ResponseStatus.Success, result));
         }
